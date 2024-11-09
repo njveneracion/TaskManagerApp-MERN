@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Link } from "react-router-dom";
+import Header from "./Header";
+import Button from "react-bootstrap/Button";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -17,17 +18,21 @@ const TaskList = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Task List</h2>
-      <Link to="/logout">
-        <button>Logout</button>
-      </Link>
-      <ul>
-        {tasks.map((task) => (
-          <li key={task._id}>{task.title}</li>
-        ))}
-      </ul>
-    </div>
+    <>
+      <Header />
+      <div className="d-flex flex-column align-items-center card container">
+        <h1 className="fw-bold">Tasks</h1>
+        <Button variant="primary">Add Task</Button>
+        <div>
+          {tasks.map((task) => (
+            <div className="card mb-2" key={task._id}>
+              <h4> {task.title.toUpperCase()}</h4>
+              <p>{task.description}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
 

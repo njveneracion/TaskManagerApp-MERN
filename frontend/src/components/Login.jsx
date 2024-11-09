@@ -8,12 +8,14 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { MdEmail } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
+  const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -22,6 +24,7 @@ const Login = () => {
         email,
         password,
       });
+      login(res.data.user);
       localStorage.setItem("token", res.data.token);
       navigate("/tasks");
     } catch (error) {
