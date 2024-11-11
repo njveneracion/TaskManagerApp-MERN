@@ -7,9 +7,13 @@ import Button from "react-bootstrap/Button";
 import { FaCheck } from "react-icons/fa";
 import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
+import Modal from "react-bootstrap/Modal";
+import Form from "react-bootstrap/Form";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
+  const [show, setShow] = useState(false);
+  const [currentTask, setCurrentTask] = useState({});
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -62,6 +66,12 @@ const TaskList = () => {
     }
   };
 
+  const handleClose = () => setShow(false);
+  const handleShow = (task) => {
+    setCurrentTask(task);
+    setShow(true);
+  };
+
   const updateTask = async (id, title, description) => {
     const token = localStorage.getItem("token");
     try {
@@ -75,6 +85,7 @@ const TaskList = () => {
           task._id === id ? { ...task, title, description } : task
         )
       );
+      handleClose();
     } catch (error) {
       console.log(error);
     }
@@ -126,17 +137,70 @@ const TaskList = () => {
                         size="sm"
                         className="ms-2"
                         variant="outline-danger"
-                        onClick={() => {
-                          deleteTask(task._id);
-                        }}>
+                        onClick={() => deleteTask(task._id)}>
                         <RiDeleteBin6Fill />
                       </Button>
                       <Button
                         size="sm"
                         className="ms-2"
-                        variant="outline-warning">
+                        variant="outline-warning"
+                        onClick={() => handleShow(task)}>
                         <FaEdit />
                       </Button>
+                      <Modal show={show} onHide={handleClose}>
+                        <Modal.Header closeButton>
+                          <Modal.Title>Edit Task</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="formBasicTitle">
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control
+                              type="text"
+                              value={currentTask.title || ""}
+                              onChange={(e) =>
+                                setCurrentTask({
+                                  ...currentTask,
+                                  title: e.target.value,
+                                })
+                              }
+                            />
+                          </Form.Group>
+                          <Form.Group
+                            className="mb-3"
+                            controlId="formBasicDescription">
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control
+                              as="textarea"
+                              rows={3}
+                              value={currentTask.description || ""}
+                              onChange={(e) =>
+                                setCurrentTask({
+                                  ...currentTask,
+                                  description: e.target.value,
+                                })
+                              }
+                            />
+                          </Form.Group>
+                        </Modal.Body>
+                        <Modal.Footer>
+                          <Button variant="secondary" onClick={handleClose}>
+                            Close
+                          </Button>
+                          <Button
+                            variant="primary"
+                            onClick={() =>
+                              updateTask(
+                                currentTask._id,
+                                currentTask.title,
+                                currentTask.description
+                              )
+                            }>
+                            Update Task
+                          </Button>
+                        </Modal.Footer>
+                      </Modal>
                     </div>
                   </div>
                 </div>
