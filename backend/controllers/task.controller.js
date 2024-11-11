@@ -14,6 +14,10 @@ export const createTask = async (req, res) => {
     });
 
     await task.save();
+
+    const io = req.app.get("socketio");
+    io.emit("taskCreated", task);
+
     res.status(201).json(task);
   } catch (error) {
     res.status(500).json({ message: "Failed creating a task!" });

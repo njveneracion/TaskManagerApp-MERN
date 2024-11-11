@@ -4,6 +4,7 @@ import Navbar from "react-bootstrap/Navbar";
 import { useAuth } from "../context/AuthContext";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
+import { GrTasks } from "react-icons/gr";
 
 const Header = () => {
   const { user, logout } = useAuth();
@@ -16,7 +17,9 @@ const Header = () => {
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
-        <Navbar.Brand>Task Management</Navbar.Brand>
+        <Navbar.Brand className="d-flex align-items-center gap-2">
+          <GrTasks /> <span>do.this</span>
+        </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text>Signed in as: {user ? user.name : "Guest"}</Navbar.Text>

@@ -23,7 +23,7 @@ const Register = () => {
         email,
         password,
       });
-      navigate("/login");
+      navigate("/");
     } catch (error) {
       setError("Failed to register");
     }
@@ -77,7 +77,7 @@ const Register = () => {
               Register
             </Button>
             <p className="text-center">
-              Don't have an account? <Link to="/login">Sign in</Link>
+              Don't have an account? <Link to="/">Sign in</Link>
             </p>
           </Form>
         </Col>
