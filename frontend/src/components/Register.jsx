@@ -30,7 +30,7 @@ const Register = () => {
   };
 
   return (
-    <Container className="card p-3 mt-5 w-25">
+    <Container className="card p-3 mt-5 " style={{ maxWidth: "400px" }}>
       <Row>
         <Col>
           <h2 className="fw-bold mb-3">Register</h2>

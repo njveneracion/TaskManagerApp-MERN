@@ -12,13 +12,13 @@ const Header = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
+    navigate("/");
   };
   return (
     <Navbar bg="dark" data-bs-theme="dark">
       <Container>
         <Navbar.Brand className="d-flex align-items-center gap-2">
-          <GrTasks /> <span>do.this</span>
+          <GrTasks /> <span>doThis</span>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">

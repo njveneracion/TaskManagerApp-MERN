@@ -6,7 +6,7 @@ import Form from "react-bootstrap/Form";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
-import { MdEmail } from "react-icons/md";
+import { MdEmail, MdWidthFull } from "react-icons/md";
 import { FaKey } from "react-icons/fa";
 import { useAuth } from "../context/AuthContext";
 
@@ -33,7 +33,7 @@ const Login = () => {
   };
 
   return (
-    <Container className="card p-3 mt-5 w-25">
+    <Container className="card p-3 mt-5" style={{ maxWidth: "400px" }}>
       <Row>
         <Col>
           <h2 className="fw-bold mb-3">Login</h2>
