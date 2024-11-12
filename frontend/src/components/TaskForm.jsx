@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 import axios from "axios";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const TaskForm = () => {
@@ -35,30 +35,31 @@ const TaskForm = () => {
     }
   };
   return (
-    <Form onSubmit={handleSubmit}>
-      <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
-        <Form.Label>Title</Form.Label>
-        <Form.Control
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-        />
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
-        <Form.Label>Description</Form.Label>
-        <Form.Control
-          as="textarea"
-          rows={3}
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-        />
-      </Form.Group>
-      <Button variant="primary" className="w-100" onClick={handleSubmit}>
-        Add Task
-      </Button>
-      <ToastContainer />
-    </Form>
+    <>
+      <Form onSubmit={handleSubmit}>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
+          <Form.Label>Title</Form.Label>
+          <Form.Control
+            type="text"
+            value={title}
+            onChange={(e) => setTitle(e.target.value)}
+            required
+          />
+        </Form.Group>
+        <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
+          <Form.Label>Description</Form.Label>
+          <Form.Control
+            as="textarea"
+            rows={3}
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+          />
+        </Form.Group>
+        <Button variant="primary" className="w-100" onClick={handleSubmit}>
+          Add Task
+        </Button>
+      </Form>
+    </>
   );
 };
 

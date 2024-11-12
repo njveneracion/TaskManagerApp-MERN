@@ -6,7 +6,7 @@ import { RiLogoutBoxLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { GrTasks } from "react-icons/gr";
 
-const Header = () => {
+const Header = ({ transparent }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -15,14 +15,25 @@ const Header = () => {
     navigate("/");
   };
   return (
-    <Navbar bg="dark" data-bs-theme="dark">
+    <Navbar
+      style={{
+        position: transparent ? "absolute" : "relative",
+        top: 0,
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+        background: transparent ? "rgba(0, 0, 0, 0.2)" : "#212529",
+        backdropFilter: transparent ? "blur(5px)" : "none",
+      }}>
       <Container>
-        <Navbar.Brand className="d-flex align-items-center gap-2">
+        <Navbar.Brand className="d-flex align-items-center gap-2 text-white">
           <GrTasks /> <span>doThis</span>
         </Navbar.Brand>
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
-          <Navbar.Text>Signed in as: {user ? user.name : "Guest"}</Navbar.Text>
+          <Navbar.Text className="text-white">
+            Signed in as: {user ? user.name : "Guest"}
+          </Navbar.Text>
         </Navbar.Collapse>
         {user && (
           <button onClick={handleLogout} className="btn btn-outline-light ms-3">

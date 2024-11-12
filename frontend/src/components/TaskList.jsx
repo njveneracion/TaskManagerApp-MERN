@@ -93,122 +93,137 @@ const TaskList = () => {
 
   return (
     <>
-      <Header />
-      <div className="container mt-5">
-        <div className="row">
-          <div className="col-md-4 border p-3 rounded">
-            <h2>Add Task</h2>
-            <TaskForm />
-          </div>
-          <div className="col-md-8">
-            <div className="row">
-              {tasks.map((task) => (
-                <div className="col-md-6 mb-4" key={task._id}>
-                  <div className="card h-100">
-                    <div className="card-body">
-                      {task.completed ? (
-                        <>
-                          <h4 className="card-title">
-                            <s> {task.title.toUpperCase()}</s>
-                          </h4>
-                          <p className="card-text">
-                            <s>{task.description}</s>
-                          </p>
-                        </>
-                      ) : (
-                        <>
-                          <h4 className="card-title">
+      <Header transparent={false} />
+      <div
+        style={{
+          background: "linear-gradient(to bottom, #f8f9fa, #e9ecef)",
+          minHeight: "94vh",
+          paddingTop: "1rem", // Add spacing below header
+        }}>
+        <div className="container py-5 pb-5">
+          <div className="row g-4">
+            <div className="col-md-4">
+              <div
+                className="card shadow-sm border-0 h-100"
+                style={{
+                  background: "rgba(255, 255, 255, 0.9)",
+                  backdropFilter: "blur(10px)",
+                }}>
+                <div className="card-body">
+                  <h3 className="card-title mb-4 fw-bold">Add New Task</h3>
+                  <TaskForm />
+                </div>
+              </div>
+            </div>
+            <div className="col-md-8">
+              <div className="row g-4">
+                {tasks.map((task) => (
+                  <div className="col-md-6" key={task._id}>
+                    <div
+                      className="card shadow-sm border-0 h-100 task-card"
+                      style={{
+                        background: "rgba(255, 255, 255, 0.9)",
+                        backdropFilter: "blur(10px)",
+                        transition: "transform 0.2s",
+                      }}>
+                      <div className="card-body">
+                        <div className="d-flex justify-content-between align-items-start mb-3">
+                          <h5
+                            className={`card-title mb-0 ${
+                              task.completed
+                                ? "text-decoration-line-through"
+                                : ""
+                            }`}>
                             {task.title.toUpperCase()}
-                          </h4>
-                          <p className="card-text">{task.description}</p>
-                        </>
-                      )}
-                      <Button
-                        variant={
-                          task.completed ? "secondary" : "outline-success"
-                        }
-                        size="sm"
-                        onClick={() =>
-                          toggleTaskCompletion(task._id, task.completed)
-                        }>
-                        {task.completed ? "Completed" : <FaCheck />}
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="ms-2"
-                        variant="outline-danger"
-                        onClick={() => deleteTask(task._id)}>
-                        <RiDeleteBin6Fill />
-                      </Button>
-                      <Button
-                        size="sm"
-                        className="ms-2"
-                        variant="outline-warning"
-                        onClick={() => handleShow(task)}>
-                        <FaEdit />
-                      </Button>
-                      <Modal show={show} onHide={handleClose}>
-                        <Modal.Header closeButton>
-                          <Modal.Title>Edit Task</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicTitle">
-                            <Form.Label>Title</Form.Label>
-                            <Form.Control
-                              type="text"
-                              value={currentTask.title || ""}
-                              onChange={(e) =>
-                                setCurrentTask({
-                                  ...currentTask,
-                                  title: e.target.value,
-                                })
-                              }
-                            />
-                          </Form.Group>
-                          <Form.Group
-                            className="mb-3"
-                            controlId="formBasicDescription">
-                            <Form.Label>Description</Form.Label>
-                            <Form.Control
-                              as="textarea"
-                              rows={3}
-                              value={currentTask.description || ""}
-                              onChange={(e) =>
-                                setCurrentTask({
-                                  ...currentTask,
-                                  description: e.target.value,
-                                })
-                              }
-                            />
-                          </Form.Group>
-                        </Modal.Body>
-                        <Modal.Footer>
-                          <Button variant="secondary" onClick={handleClose}>
-                            Close
-                          </Button>
-                          <Button
-                            variant="primary"
-                            onClick={() =>
-                              updateTask(
-                                currentTask._id,
-                                currentTask.title,
-                                currentTask.description
-                              )
-                            }>
-                            Update Task
-                          </Button>
-                        </Modal.Footer>
-                      </Modal>
+                          </h5>
+                          <div className="btn-group">
+                            <Button
+                              variant={task.completed ? "secondary" : "success"}
+                              size="sm"
+                              className="rounded-pill me-2"
+                              onClick={() =>
+                                toggleTaskCompletion(task._id, task.completed)
+                              }>
+                              {task.completed ? "Completed" : <FaCheck />}
+                            </Button>
+                            <Button
+                              variant="danger"
+                              size="sm"
+                              className="rounded-pill me-2"
+                              onClick={() => deleteTask(task._id)}>
+                              <RiDeleteBin6Fill />
+                            </Button>
+                            <Button
+                              variant="warning"
+                              size="sm"
+                              className="rounded-pill"
+                              onClick={() => handleShow(task)}>
+                              <FaEdit />
+                            </Button>
+                          </div>
+                        </div>
+                        <p
+                          className={`card-text ${
+                            task.completed ? "text-decoration-line-through" : ""
+                          }`}>
+                          {task.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              ))}
+                ))}
+              </div>
             </div>
           </div>
         </div>
       </div>
+
+      <Modal show={show} onHide={handleClose} centered>
+        <Modal.Header closeButton className="border-0">
+          <Modal.Title>Edit Task</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form.Group className="mb-3">
+            <Form.Label>Title</Form.Label>
+            <Form.Control
+              type="text"
+              value={currentTask.title || ""}
+              onChange={(e) =>
+                setCurrentTask({ ...currentTask, title: e.target.value })
+              }
+              className="border-0 shadow-sm"
+            />
+          </Form.Group>
+          <Form.Group className="mb-3">
+            <Form.Label>Description</Form.Label>
+            <Form.Control
+              as="textarea"
+              rows={3}
+              value={currentTask.description || ""}
+              onChange={(e) =>
+                setCurrentTask({ ...currentTask, description: e.target.value })
+              }
+              className="border-0 shadow-sm"
+            />
+          </Form.Group>
+        </Modal.Body>
+        <Modal.Footer className="border-0">
+          <Button variant="light" onClick={handleClose}>
+            Cancel
+          </Button>
+          <Button
+            variant="primary"
+            onClick={() =>
+              updateTask(
+                currentTask._id,
+                currentTask.title,
+                currentTask.description
+              )
+            }>
+            Update Task
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </>
   );
 };
