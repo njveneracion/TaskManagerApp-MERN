@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/esm/Button";
 import axios from "axios";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const TaskForm = () => {
   const [title, setTitle] = useState("");
@@ -17,10 +19,19 @@ const TaskForm = () => {
         { headers: { Authorization: `Bearer ${token}` } }
       );
 
-      setTitle("");
-      setDescription("");
+      if (result.status === 201) {
+        toast.success("Task added successfully");
+        setTitle("");
+        setDescription("");
+      } else {
+        toast.error("Can't add a task");
+      }
     } catch (e) {
       console.log(e);
+
+      if (title === "") {
+        toast.error("Can't add task, title is required!");
+      }
     }
   };
   return (
@@ -46,6 +57,7 @@ const TaskForm = () => {
       <Button variant="primary" className="w-100" onClick={handleSubmit}>
         Add Task
       </Button>
+      <ToastContainer />
     </Form>
   );
 };
