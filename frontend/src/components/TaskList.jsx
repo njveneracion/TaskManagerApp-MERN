@@ -9,11 +9,14 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
+import { useTheme } from "./ThemeContext";
+import "./TaskList.css"; // Create this CSS file for theme styles
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [show, setShow] = useState(false);
   const [currentTask, setCurrentTask] = useState({});
+  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -92,8 +95,11 @@ const TaskList = () => {
   };
 
   return (
-    <>
+    <div className={`task-list ${theme}`}>
       <Header transparent={false} />
+      <button onClick={toggleTheme}>
+        Toggle to {theme === "light" ? "Dark" : "Light"} Mode
+      </button>
       <div
         style={{
           background: "linear-gradient(to bottom, #f8f9fa, #e9ecef)",
@@ -224,7 +230,7 @@ const TaskList = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-    </>
+    </div>
   );
 };
 

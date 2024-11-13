@@ -1,0 +1,11 @@
+/* TaskList.css */
+.task-list.light {
+    background-color: white;
+    color: black;
+  }
+  
+  .task-list.dark {
+    background-color: black;
+    color: white;
+  }
+  
