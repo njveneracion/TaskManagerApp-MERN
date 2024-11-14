@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { GrTasks } from "react-icons/gr";
 import { Button } from "react-bootstrap";
 
-const Header = ({ transparent }) => {
+const Header = ({ transparent, fixed }) => {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ const Header = ({ transparent }) => {
   return (
     <Navbar
       style={{
-        position: transparent ? "absolute" : "relative",
+        position: "fixed",
         top: 0,
         left: 0,
         right: 0,

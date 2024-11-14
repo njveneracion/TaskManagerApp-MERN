@@ -12,6 +12,8 @@ import Form from "react-bootstrap/Form";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { format } from "date-fns";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
@@ -98,18 +100,29 @@ const TaskList = () => {
     }
   };
 
+  const handleUpdateTask = () => {
+    updateTask(currentTask._id, currentTask.title, currentTask.description);
+  };
+
   return (
     <div>
-      <Header transparent={false} />
+      <Header transparent={false} fixed={true} />
       <div
         style={{
           background: "linear-gradient(to bottom, #f8f9fa, #e9ecef)",
           minHeight: "94vh",
           paddingTop: "1rem",
+          marginTop: "3rem",
         }}>
         <div className="container py-5 pb-5">
           <div className="row g-4">
-            <div className="col-md-4">
+            <div
+              className="col-md-4"
+              style={{
+                position: "sticky",
+                top: "0",
+                height: "fit-content",
+              }}>
               <div
                 className="card shadow-sm border-0 h-100"
                 style={{
@@ -233,36 +246,25 @@ const TaskList = () => {
               onChange={(e) =>
                 setCurrentTask({ ...currentTask, title: e.target.value })
               }
-              className="border-0 shadow-sm"
             />
           </Form.Group>
           <Form.Group className="mb-3">
             <Form.Label>Description</Form.Label>
-            <Form.Control
-              as="textarea"
-              rows={3}
+            <ReactQuill
               value={currentTask.description || ""}
-              onChange={(e) =>
-                setCurrentTask({ ...currentTask, description: e.target.value })
+              onChange={(value) =>
+                setCurrentTask({ ...currentTask, description: value })
               }
-              className="border-0 shadow-sm"
+              theme="snow"
             />
           </Form.Group>
         </Modal.Body>
         <Modal.Footer className="border-0">
-          <Button variant="light" onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             Cancel
           </Button>
-          <Button
-            variant="primary"
-            onClick={() =>
-              updateTask(
-                currentTask._id,
-                currentTask.title,
-                currentTask.description
-              )
-            }>
-            Update Task
+          <Button variant="primary" onClick={handleUpdateTask}>
+            Save Changes
           </Button>
         </Modal.Footer>
       </Modal>
