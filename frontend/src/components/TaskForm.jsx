@@ -4,6 +4,8 @@ import Button from "react-bootstrap/esm/Button";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const TaskForm = () => {
   const [title, setTitle] = useState("");
@@ -48,11 +50,10 @@ const TaskForm = () => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
           <Form.Label>Description</Form.Label>
-          <Form.Control
-            as="textarea"
-            rows={3}
+          <ReactQuill
             value={description}
-            onChange={(e) => setDescription(e.target.value)}
+            onChange={setDescription}
+            theme="snow"
           />
         </Form.Group>
         <Button variant="primary" className="w-100" onClick={handleSubmit}>

@@ -122,79 +122,99 @@ const TaskList = () => {
                 </div>
               </div>
             </div>
+
             <div className="col-md-8">
-              <div className="row g-4">
-                {tasks.map((task) => (
-                  <div className="col-md-6" key={task._id}>
-                    <div
-                      className="card shadow-sm border-0 h-100 task-card"
-                      style={{
-                        background: "rgba(255, 255, 255, 0.9)",
-                        backdropFilter: "blur(10px)",
-                        transition: "transform 0.2s",
-                      }}>
-                      <div className="card-body">
-                        <span
-                          style={{
-                            fontSize: "12px",
-                            position: "absolute",
-                            top: "36%",
-                          }}
-                          className={`${
-                            task.completed ? "text-decoration-line-through" : ""
-                          } text-muted`}>
-                          {format(new Date(task.createdAt), "p MMMM dd, yyyy")}
-                        </span>
-                        <div className="d-flex justify-content-between align-items-start mb-3">
-                          <h5
-                            className={`card-title mb-0 ${
+              <h1 className="">Tasks</h1>
+              <hr />
+              {tasks.length === 0 ? (
+                <div className="alert alert-info">
+                  No tasks available. Add a new task.
+                </div>
+              ) : (
+                <div className="row g-4">
+                  {tasks.map((task) => (
+                    <div className="col-md-6" key={task._id}>
+                      <div
+                        className="card shadow-sm border-0 h-100 task-card"
+                        style={{
+                          background: "rgba(255, 255, 255, 0.9)",
+                          backdropFilter: "blur(10px)",
+                          transition: "transform 0.2s",
+                        }}>
+                        <div className="card-body">
+                          <div className="d-flex justify-content-between align-items-start mb-3">
+                            <div>
+                              <h5
+                                className={`card-title mb-0 ${
+                                  task.completed
+                                    ? "text-decoration-line-through"
+                                    : ""
+                                }`}>
+                                {task.title.toUpperCase()}
+                              </h5>
+                              <p
+                                style={{
+                                  fontSize: "12px",
+                                }}
+                                className={`${
+                                  task.completed
+                                    ? "text-decoration-line-through"
+                                    : ""
+                                } text-muted`}>
+                                {format(
+                                  new Date(task.createdAt),
+                                  "p MMMM dd, yyyy"
+                                )}
+                              </p>
+                            </div>
+
+                            <div className="btn-group">
+                              <Button
+                                variant={
+                                  task.completed
+                                    ? "secondary"
+                                    : "outline-success"
+                                }
+                                size="sm"
+                                className="rounded-pill me-2"
+                                onClick={() =>
+                                  toggleTaskCompletion(task._id, task.completed)
+                                }>
+                                {task.completed ? "Completed" : <FaCheck />}
+                              </Button>
+                              <Button
+                                variant="outline-danger"
+                                size="sm"
+                                className="rounded-pill me-2"
+                                onClick={() => deleteTask(task._id)}>
+                                <RiDeleteBin6Fill />
+                              </Button>
+                              <Button
+                                variant="outline-warning"
+                                size="sm"
+                                className="rounded-pill"
+                                onClick={() => handleShow(task)}>
+                                <FaEdit />
+                              </Button>
+                            </div>
+                          </div>
+                          <hr />
+
+                          <p
+                            className={`card-text ${
                               task.completed
                                 ? "text-decoration-line-through"
                                 : ""
-                            }`}>
-                            {task.title.toUpperCase()}
-                          </h5>
-
-                          <div className="btn-group">
-                            <Button
-                              variant={
-                                task.completed ? "secondary" : "outline-success"
-                              }
-                              size="sm"
-                              className="rounded-pill me-2"
-                              onClick={() =>
-                                toggleTaskCompletion(task._id, task.completed)
-                              }>
-                              {task.completed ? "Completed" : <FaCheck />}
-                            </Button>
-                            <Button
-                              variant="outline-danger"
-                              size="sm"
-                              className="rounded-pill me-2"
-                              onClick={() => deleteTask(task._id)}>
-                              <RiDeleteBin6Fill />
-                            </Button>
-                            <Button
-                              variant="outline-warning"
-                              size="sm"
-                              className="rounded-pill"
-                              onClick={() => handleShow(task)}>
-                              <FaEdit />
-                            </Button>
-                          </div>
+                            }`}
+                            dangerouslySetInnerHTML={{
+                              __html: task.description,
+                            }}></p>
                         </div>
-
-                        <p
-                          className={`card-text ${
-                            task.completed ? "text-decoration-line-through" : ""
-                          }`}>
-                          {task.description}
-                        </p>
                       </div>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
