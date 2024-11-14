@@ -5,6 +5,7 @@ import { useAuth } from "../context/AuthContext";
 import { RiLogoutBoxLine } from "react-icons/ri";
 import { useNavigate } from "react-router-dom";
 import { GrTasks } from "react-icons/gr";
+import { Button } from "react-bootstrap";
 
 const Header = ({ transparent }) => {
   const { user, logout } = useAuth();
@@ -32,13 +33,25 @@ const Header = ({ transparent }) => {
         <Navbar.Toggle />
         <Navbar.Collapse className="justify-content-end">
           <Navbar.Text className="text-white">
-            Signed in as: {user ? user.name : "Guest"}
+            Signed in as:{" "}
+            {user ? (
+              <span className="text-warning">{user.name}</span>
+            ) : (
+              <span className="text-warning">Guest</span>
+            )}
           </Navbar.Text>
         </Navbar.Collapse>
-        {user && (
+        {user ? (
           <button onClick={handleLogout} className="btn btn-outline-light ms-3">
             <RiLogoutBoxLine /> Logout
           </button>
+        ) : (
+          <Button
+            variant="outline-light"
+            onClick={() => navigate("/login")}
+            className="ms-3">
+            Login
+          </Button>
         )}
       </Container>
     </Navbar>

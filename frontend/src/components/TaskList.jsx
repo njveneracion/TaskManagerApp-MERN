@@ -9,14 +9,14 @@ import { RiDeleteBin6Fill } from "react-icons/ri";
 import { FaEdit } from "react-icons/fa";
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
-import { useTheme } from "./ThemeContext";
-import "./TaskList.css"; // Create this CSS file for theme styles
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { format } from "date-fns";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [show, setShow] = useState(false);
   const [currentTask, setCurrentTask] = useState({});
-  const { theme, toggleTheme } = useTheme();
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -64,8 +64,10 @@ const TaskList = () => {
         headers: { Authorization: `Bearer ${token}` },
       });
       setTasks((prevTasks) => prevTasks.filter((task) => task._id !== id));
+      toast.error("Task deleted successfully");
     } catch (error) {
       console.log(error);
+      toast.error("Can't delete task");
     }
   };
 
@@ -89,22 +91,21 @@ const TaskList = () => {
         )
       );
       handleClose();
+      toast.success("Task updated successfully");
     } catch (error) {
       console.log(error);
+      toast.error("Can't update task");
     }
   };
 
   return (
-    <div className={`task-list ${theme}`}>
+    <div>
       <Header transparent={false} />
-      <button onClick={toggleTheme}>
-        Toggle to {theme === "light" ? "Dark" : "Light"} Mode
-      </button>
       <div
         style={{
           background: "linear-gradient(to bottom, #f8f9fa, #e9ecef)",
           minHeight: "94vh",
-          paddingTop: "1rem", // Add spacing below header
+          paddingTop: "1rem",
         }}>
         <div className="container py-5 pb-5">
           <div className="row g-4">
@@ -133,6 +134,17 @@ const TaskList = () => {
                         transition: "transform 0.2s",
                       }}>
                       <div className="card-body">
+                        <span
+                          style={{
+                            fontSize: "12px",
+                            position: "absolute",
+                            top: "36%",
+                          }}
+                          className={`${
+                            task.completed ? "text-decoration-line-through" : ""
+                          } text-muted`}>
+                          {format(new Date(task.createdAt), "p MMMM dd, yyyy")}
+                        </span>
                         <div className="d-flex justify-content-between align-items-start mb-3">
                           <h5
                             className={`card-title mb-0 ${
@@ -142,9 +154,12 @@ const TaskList = () => {
                             }`}>
                             {task.title.toUpperCase()}
                           </h5>
+
                           <div className="btn-group">
                             <Button
-                              variant={task.completed ? "secondary" : "success"}
+                              variant={
+                                task.completed ? "secondary" : "outline-success"
+                              }
                               size="sm"
                               className="rounded-pill me-2"
                               onClick={() =>
@@ -153,14 +168,14 @@ const TaskList = () => {
                               {task.completed ? "Completed" : <FaCheck />}
                             </Button>
                             <Button
-                              variant="danger"
+                              variant="outline-danger"
                               size="sm"
                               className="rounded-pill me-2"
                               onClick={() => deleteTask(task._id)}>
                               <RiDeleteBin6Fill />
                             </Button>
                             <Button
-                              variant="warning"
+                              variant="outline-warning"
                               size="sm"
                               className="rounded-pill"
                               onClick={() => handleShow(task)}>
@@ -168,6 +183,7 @@ const TaskList = () => {
                             </Button>
                           </div>
                         </div>
+
                         <p
                           className={`card-text ${
                             task.completed ? "text-decoration-line-through" : ""
