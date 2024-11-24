@@ -46,6 +46,7 @@ const TaskForm = () => {
             value={title}
             onChange={(e) => setTitle(e.target.value)}
             required
+            placeholder="Enter task title"
           />
         </Form.Group>
         <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
@@ -54,9 +55,10 @@ const TaskForm = () => {
             value={description}
             onChange={setDescription}
             theme="snow"
+            style={{ height: "200px" }}
           />
         </Form.Group>
-        <Button variant="primary" className="w-100" onClick={handleSubmit}>
+        <Button variant="dark" className="w-100 mt-5" onClick={handleSubmit}>
           Add Task
         </Button>
       </Form>

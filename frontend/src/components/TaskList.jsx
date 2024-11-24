@@ -14,11 +14,14 @@ import "react-toastify/dist/ReactToastify.css";
 import { format } from "date-fns";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import Footer from "./Footer";
 
 const TaskList = () => {
   const [tasks, setTasks] = useState([]);
   const [show, setShow] = useState(false);
   const [currentTask, setCurrentTask] = useState({});
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [taskToDelete, setTaskToDelete] = useState(null);
 
   useEffect(() => {
     const fetchTasks = async () => {
@@ -199,7 +202,10 @@ const TaskList = () => {
                                 variant="outline-danger"
                                 size="sm"
                                 className="rounded-pill me-2"
-                                onClick={() => deleteTask(task._id)}>
+                                onClick={() => {
+                                  setTaskToDelete(task._id);
+                                  setShowDeleteModal(true);
+                                }}>
                                 <RiDeleteBin6Fill />
                               </Button>
                               <Button
@@ -232,6 +238,7 @@ const TaskList = () => {
           </div>
         </div>
       </div>
+      <Footer />
 
       <Modal show={show} onHide={handleClose} centered>
         <Modal.Header closeButton className="border-0">
@@ -265,6 +272,29 @@ const TaskList = () => {
           </Button>
           <Button variant="primary" onClick={handleUpdateTask}>
             Save Changes
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal
+        show={showDeleteModal}
+        onHide={() => setShowDeleteModal(false)}
+        centered>
+        <Modal.Header closeButton className="border-0">
+          <Modal.Title>Confirm Delete</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>Are you sure you want to delete this task?</Modal.Body>
+        <Modal.Footer className="border-0">
+          <Button variant="secondary" onClick={() => setShowDeleteModal(false)}>
+            Cancel
+          </Button>
+          <Button
+            variant="danger"
+            onClick={() => {
+              deleteTask(taskToDelete);
+              setShowDeleteModal(false);
+            }}>
+            Delete
           </Button>
         </Modal.Footer>
       </Modal>

@@ -2,6 +2,7 @@ import React from "react";
 import { Container, Row, Col, Button } from "react-bootstrap";
 import Header from "./Header";
 import { motion } from "framer-motion";
+import Footer from "./Footer";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -73,6 +74,7 @@ const Hero = () => {
           </motion.div>
         </Container>
       </div>
+      <Footer />
     </>
   );
 };
