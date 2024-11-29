@@ -77,7 +77,7 @@ const Register = () => {
               Register
             </Button>
             <p className="text-center">
-              Don't have an account? <Link to="/">Sign in</Link>
+              Don't have an account? <Link to="/login">Sign in</Link>
             </p>
           </Form>
         </Col>
